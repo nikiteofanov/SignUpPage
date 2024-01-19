@@ -46,10 +46,24 @@
                  BorderBrush="Olive"
                  BorderThickness="1.5"/>
 
-        <Button Grid.Row="6" Width="90" Height="20"
+        <Button Grid.Row="6" Height="20"
                 Content="Sign Up"
                 Foreground="Olive"
-                FontWeight="Bold" Click="Button_Click"/>
+                FontWeight="Bold" Click="Button_Click" Margin="192,21,192,21"/>
 
+        <Button Grid.Row="6" Width="73" Height="20"
+                Content="Update"
+                Foreground="Olive"
+                FontWeight="Bold" HorizontalAlignment="Left" Margin="336,21,0,21" 
+                Click="Update" />
+
+        <Button Grid.Row="6" Width="79" Height="20"
+                Content="Delete"
+                Foreground="Olive"
+                FontWeight="Bold" HorizontalAlignment="Left" Margin="87,21,0,21" 
+                Click="Delete" />
+        
+        
+        
     </Grid>
 </Window>

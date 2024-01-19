@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace SignUpPage
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-            char[] arr = {'@', '!', '#', '$', '%', '^', '&'};
+            char[] arr = { '@', '!', '#', '$', '%', '^', '&' };
 
             string ran = arr.ToString();
 
@@ -37,11 +38,11 @@ namespace SignUpPage
             {
                 MessageBox.Show("You need to enter your password!");
             }
-            else if (txtFName.Text=="")
+            else if (txtFName.Text == "")
             {
                 MessageBox.Show("You have to enter your first name!");
             }
-            else if (txtLName.Text=="")
+            else if (txtLName.Text == "")
             {
                 MessageBox.Show("You have to enter your last name!");
             }
@@ -49,11 +50,31 @@ namespace SignUpPage
             {
                 MessageBox.Show("You have to enter a valid email address!");
             }
-            else  
+            else
             {
                 MessageBox.Show($"Success! Your username is: {txtUsername.Text}, and your password is {pswdBox.Password}");
             }
-                    
+
+            SqlConnection conn = new SqlConnection(sqlCon);
+
+            try
+            {
+                conn.Open();
+                string query = $"Insert into Credentials_table(Username, FirstName, LastName, Email, Password) values " +
+                    $"('{txtUsername.Text}', '{txtFName.Text}', '{txtLName.Text}', '{txtEmail.Text}', '{pswdBox.Password}')";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Success! It works fine!");
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private void usernameClear(object sender, RoutedEventArgs e)
@@ -75,5 +96,54 @@ namespace SignUpPage
         {
             txtEmail.Text = "";
         }
+
+
+        string sqlCon = @"Data Source=LAB108PC18\SQLEXPRESS; Initial Catalog=SignUp; Integrated Security=True;";
+
+        private void Delete(object sender, RoutedEventArgs e)
+        {
+            SqlConnection conn = new SqlConnection(sqlCon);
+
+            try
+            {
+                conn.Open();
+                string query = $"DELETE FROM Credentials_table WHERE Username='{txtUsername.Text}'";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Success! It works fine!");
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Update(object sender, RoutedEventArgs e)
+        {
+            SqlConnection conn = new SqlConnection(sqlCon);
+
+            try
+            {
+                conn.Open();
+                string query = $"UPDATE Credentials_table SET FirstName='{txtFName.Text}', LastName='{txtLName.Text}', Email='{txtEmail.Text}', " +
+                                $"Password='{pswdBox.Password}' WHERE Username='{txtUsername.Text}'";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Success! It works fine!");
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
-}
+        }
+
